@@ -1,0 +1,46 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+    {% block tabla_content %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header pb-0 card-no-border">
+                            <h3>Tabla de podcasts</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table" id="basic-1">
+                                    <thead>
+                                        <tr class="border-bottom-primary">
+                                            <th scope="col">Título</th>
+                                            <th scope="col">Fecha de Subida</th>
+                                            <th scope="col">Descripción</th>
+                                            <th scope="col">Autor</th>
+                                            <th scope="col">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for podcast in podcasts %}
+                                            <tr class="border-bottom-secondary">
+                                                <td>{{ podcast.titulo }}</td>
+                                                <td>{{ podcast.fechaSubida|date('d/m/Y') }}</td>
+                                                <td>{{ podcast.descripcion }}</td>
+                                                <td>{{ podcast.autor }}</td>
+                                                <td>
+                                                    <a href="{{ path('editar_podcast_admin', {'id': podcast.id}) }}" class="btn btn-primary">Editar</a>
+                                                    <a href="{{ path('eliminar_podcast', {'id': podcast.id}) }}" class="btn btn-danger">Eliminar</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}

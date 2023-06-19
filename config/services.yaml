@@ -4,12 +4,21 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.image_directory: '%kernel.project_dir%/public/assets/images'
+
+    app.audio_directory: '%kernel.project_dir%/public/assets/audio'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        
+    # Register the StringToFileTransformer service
+    App\Form\StringToFileTransformer:
+        tags: ['form.type_extension']
+
+    # Register other services...
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

@@ -1,0 +1,13 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+    <h1>Upload New Podcast</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.titulo) }}
+        {{ form_row(form.descripcion) }}
+        {{ form_row(form.audio, {'attr': {'accept': 'audio/*'}}) }}
+        {{ form_row(form.imagen, {'attr': {'accept': 'image/*'}}) }}
+        <button type="submit">Upload</button>
+    {{ form_end(form) }}
+{% endblock %}

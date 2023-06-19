@@ -3,3 +3,49 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+app_users:
+    path: /usuarios
+    controller: App\Controller\UsuarioController::index
+
+
+eliminar_usuario:
+  path: /usuarios/{id}/eliminar
+  controller: App\Controller\UsuarioController::eliminar
+  methods: [GET]
+editar_usuario:
+    path: '/usuarios/editar/{id}'
+    controller: 'App\Controller\UsuarioController::editar'
+    methods: ['GET', 'POST']
+editar_podcast:
+    path: '/podcasts/editar/{id}'
+    controller: App\Controller\PodcastController::editar
+    methods: ['GET', 'POST']
+
+editar_podcast_admin:
+    path: '/admin/podcasts/editar/{id}'
+    controller: App\Controller\PodcastController::editar_admin
+    methods: ['GET', 'POST']
+
+tabla_podcast:
+    path: /tabla
+    controller: App\Controller\PodcastController::tabla
+index:
+    path: /
+    controller: App\Controller\IndexController::index
+    
+perfil:
+    path: /perfil
+    controller: App\Controller\UsuarioController::perfil
+    methods: ['GET', 'POST']
+subir_podcast:
+    path: /subirpodcast
+    controller: App\Controller\PodcastController::subirPodcast
+registrar:
+    path: /registrar
+    controller: App\Controller\UsuarioController::register
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::login
+
+app_logout:
+    path: /logout

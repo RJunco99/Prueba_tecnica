@@ -1,0 +1,131 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+{% block body %}
+ {% include "css.html.twig" %}
+{% include 'header.html.twig' %}
+	{% include "head.html.twig" %}
+<html>
+<head>
+    <title>Podcasts</title>
+     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+		 <!-- App css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+        <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
+        <!-- Responsive css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">		
+</head>
+<body>
+    <h1>Podcasts</h1>
+    <ul>
+        {% for podcast in podcasts %}
+        <li>
+            <h2>{{ podcast.titulo }}</h2>
+            <p>{{ podcast.descripcion }}</p>
+            <p>Fecha subida: {{ podcast.fechaSubida|date }}</p>
+            <!-- Agrega más información del podcast según tus necesidades -->
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+   {% include "script.html.twig" %}		
+{% include 'footer.html.twig' %}
+<script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
+        <!-- Plugins JS Ends-->
+
+		<!-- Theme js-->
+		    <script src="{{ asset('assets/js/script.js') }}"></script>
+		    <script src="{{ asset('assets/js/theme-customizer/customizer.js') }}"></script>
+</html>
+{% endblock %}
+ #}
+ <!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+
+
+
+
+        {% include "plantillas/css.html.twig" %}
+
+		<!-- Plugins css Start-->
+        {% block css %}{% endblock %}
+        <!-- Plugins css Ends-->
+
+        <!-- Bootstrap css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+		 <!-- App css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+        <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
+        <!-- Responsive css-->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">		
+	</head>
+
+	<body
+		onload="startTime()">
+		<!-- loader starts-->
+		<div class="loader-wrapper">
+			<div class="loader-index">
+				<span></span>
+			</div>
+			<svg>
+				<defs></defs>
+				<filter id="goo">
+					<fegaussianblur in="SourceGraphic" stddeviation="11" result="blur"></fegaussianblur>
+					<fecolormatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></fecolormatrix>
+				</filter>
+			</svg>
+		</div>
+		<!-- loader ends-->
+
+		<!-- tap on top starts-->
+		<div class="tap-top">
+			<i data-feather="chevrons-up"></i>
+		</div>
+		<!-- tap on tap ends-->
+
+		<!-- page-wrapper Start-->
+		<div class="page-wrapper compact-wrapper" id="pageWrapper">
+
+			<!-- Page Header Start-->
+			{% include "plantillas/header.html.twig" %}
+			<!-- Page Header Ends-->
+
+			<!-- Page Body Start-->
+			<div class="page-body-wrapper">
+			
+			<!-- Page Sidebar Start-->
+            {% include "plantillas/sidebar.html.twig" %}
+			<!-- Page Sidebar Ends-->
+
+			{# main page body #}
+			<div class="page-body">
+
+			{# Main content include  #}
+            {% block body %}{% endblock %}
+
+			<!-- Container-fluid Ends-->
+			</div>
+			<!-- footer start-->
+			{% include "plantillas/footer.html.twig" %}
+
+			</div>
+		</div>
+
+		{# include scripts #}
+        {% include "plantillas/script.html.twig" %}		
+		
+        {% block scripts %}{% endblock %}
+		<script src="{{ asset('assets/js/tooltip-init.js') }}"></script>
+        <!-- Plugins JS Ends-->
+
+		<!-- Theme js-->
+		    <script src="{{ asset('assets/js/script.js') }}"></script>
+		   
+		<!-- login js-->
+		
+	</body>
+</html>

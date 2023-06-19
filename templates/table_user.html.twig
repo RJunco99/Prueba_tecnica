@@ -1,0 +1,51 @@
+{% extends 'index.html.twig' %}
+{% block body %}
+	{% block tabla_content %}
+		<div class="container-fluid">
+		
+				<div class="row">
+				<div class="col-sm-12">
+                <div class="card">
+					<div class="card-header pb-0 card-no-border">
+						<h3>Tabla de usuarios</h3>
+
+					</div>
+					<div class="card-body">
+					<div class="table-responsive">
+						<table class="table" id="basic-1">
+							<thead>
+								<tr class="border-bottom-primary">
+									<th scope="col">Nombre</th>
+									<th scope="col">Apellidos</th>
+									<th scope="col">Email</th>
+									<th scope="col">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								{% for user in users %}
+									<tr class="border-bottom-secondary">
+										<td>{{ user.Nombre }}</td>
+										<td>{{ user.Apellidos }}</td>
+										<td>{{ user.email }}</td>
+										<td>
+										<a href="{{ path('editar_usuario', {'id': user.id}) }}" class="btn btn-primary">Editar</a>
+
+											<a href="{{ path('eliminar_usuario', {'id': user.id}) }}" class="btn btn-danger">Eliminar</a>
+										</td>
+									</tr>
+								{% endfor %}
+						
+							</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+			</div>
+</div>
+<!-- Modal de edición -->
+
+
+		{% endblock %}
+	
+	{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'index.html.twig' %}
+
+{% block body %}
+    <h1>Editar Podcast</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    {% if podcast.imagen %}
+        <div class="form-group">
+            <label>Imagen Actual:</label>
+            <img src="{{ asset('public/assets/images' ~ podcast.imagen) }}" alt="Imagen actual" class="img-thumbnail">
+        </div>
+    {% endif %}
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

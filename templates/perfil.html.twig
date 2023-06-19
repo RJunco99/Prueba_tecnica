@@ -1,0 +1,113 @@
+<html lang="en">
+
+<head>
+    {% include "plantillas/css.html.twig" %}
+
+    <!-- Plugins css Start-->
+    {% block css %}{% endblock %}
+    <!-- Plugins css Ends-->
+
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+    <!-- App css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
+    <link id="color" rel="stylesheet" href="{{ asset('assets/css/color-1.css') }}" media="screen">
+    <!-- Responsive css-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
+</head>
+
+{% block body %}
+
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xl-3 box-col-6 pe-0">
+            <div class="file-sidebar">
+                <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            <li>
+                                <div class="btn btn-light">
+                                    <i data-feather="folder"></i>All
+                                </div>
+                            </li>
+                            <hr>
+                            <li>
+                                <div class="btn btn-light">
+                                    <i data-feather="trash-2"></i>Deleted
+                                </div>
+                            </li>
+                        </ul>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-md-12 box-col-12">
+            <div class="file-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="media">
+                            <form class="form-inline" action="#" method="get">
+                                <div class="form-group mb-0">
+                                    <i class="fa fa-search"></i>
+                                    <input class="form-control-plaintext" type="text" placeholder="Search...">
+                                </div>
+                            </form>
+                            <div class="media-body text-end">
+                            
+                                <a href="{{ path('subir_podcast') }}" class="btn btn-primary">
+                                    <i data-feather="upload"></i>Upload
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body file-manager">
+                    {% if podcasts is not empty %}
+    <h4>Podcasts</h4>
+    <ul  class="files">
+        {% for podcast in podcasts %}
+            <li class="file-box">
+                <strong>Título:</strong> {{ podcast.titulo }}
+                <br>
+                <strong>Fecha de Subida:</strong> {{ podcast.fechaSubida|date('Y-m-d H:i:s') }}
+                <br>
+                <strong>Descripción:</strong> {{ podcast.descripcion }}
+                <br>
+                <strong>Audio:</strong> {{ podcast.audio }}
+                <br>
+                <strong>Imagen:</strong>
+                <img src="{{ asset('path/to/image/' ~ podcast.imagen) }}" alt="Imagen del podcast">
+               
+                    <!-- Mostrar acciones para editar o eliminar solo si el usuario actual es el autor -->
+                    <a href="{{ path('editar_podcast', { 'id': podcast.id }) }}">Editar</a>
+                    <a href="{{ path('eliminar_podcast', { 'id': podcast.id }) }}">Eliminar</a>
+               
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay podcasts disponibles.</p>
+{% endif %}
+
+
+
+
+                    
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ asset('assets/js/icons/feather-icon/feather-icon-clipart.js') }}"></script>
+<script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
+<script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
+<script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
+<script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
+<script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
+{% endblock %}
