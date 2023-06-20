@@ -24,7 +24,14 @@
 		<!-- Responsive css-->
 		<link rel="stylesheet" type="text/css" href="{{ asset('assets/css/responsive.css') }}">
       
-        
+        <style>
+			.img-fixed-size {
+    width: 200px; /* El tamaño deseado para las imágenes en píxeles */
+    height: 200px;
+    object-fit: cover; /* Para asegurarse de que las imágenes se ajusten correctamente al tamaño */
+}
+
+		</style>
 	</head>
 
 	{% block body %}
@@ -134,7 +141,7 @@
                         <hr>
 						<br>
 						<strong>Imagen:</strong>
-						<img src="{{ asset('assets/images/' ~ podcast.imagen) }}" alt="Imagen del podcast" style="max-width: 200px; height: auto;">
+						<img src="{{ asset('assets/images/' ~ podcast.imagen) }}" alt="Imagen del podcast" class="img-fixed-size">
 						<hr>
 						<a href="{{ path('editar_podcast', { 'id': podcast.id }) }}" class="btn" style="background-color: #7c9c9c;">Editar</a>
 						<a href="{{ path('eliminar_podcast', { 'id': podcast.id }) }}" class="btn" style="background-color: #dc747c;">Eliminar</a>
