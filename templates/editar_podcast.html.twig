@@ -9,7 +9,7 @@
     {% if podcast.imagen %}
         <div class="form-group">
             <label>Imagen Actual:</label>
-            <img src="{{ asset('public/assets/images' ~ podcast.imagen) }}" alt="Imagen actual" class="img-thumbnail">
+                <img src="{{ asset('assets/images/' ~ podcast.imagen) }}" alt="Imagen del podcast" style="max-width: 200px; height: auto;">
         </div>
     {% endif %}
 

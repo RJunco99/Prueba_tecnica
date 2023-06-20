@@ -21,28 +21,7 @@
 <!-- Container-fluid starts-->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-xl-3 box-col-6 pe-0">
-            <div class="file-sidebar">
-                <div class="card">
-                    <div class="card-body">
-                        <ul>
-                            <li>
-                                <div class="btn btn-light">
-                                    <i data-feather="folder"></i>All
-                                </div>
-                            </li>
-                            <hr>
-                            <li>
-                                <div class="btn btn-light">
-                                    <i data-feather="trash-2"></i>Deleted
-                                </div>
-                            </li>
-                        </ul>
-                        <hr>
-                    </div>
-                </div>
-            </div>
-        </div>
+      
         <div class="col-xl-9 col-md-12 box-col-12">
             <div class="file-content">
                 <div class="card">
@@ -62,39 +41,46 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body file-manager">
-                    {% if podcasts is not empty %}
-    <h4>Podcasts</h4>
-    <ul  class="files">
-        {% for podcast in podcasts %}
-            <li class="file-box">
-                <strong>Título:</strong> {{ podcast.titulo }}
-                <br>
-                <strong>Fecha de Subida:</strong> {{ podcast.fechaSubida|date('Y-m-d H:i:s') }}
-                <br>
-                <strong>Descripción:</strong> {{ podcast.descripcion }}
-                <br>
-                <strong>Audio:</strong> {{ podcast.audio }}
-                <br>
-                <strong>Imagen:</strong>
-                <img src="{{ asset('path/to/image/' ~ podcast.imagen) }}" alt="Imagen del podcast">
-               
-                    <!-- Mostrar acciones para editar o eliminar solo si el usuario actual es el autor -->
-                    <a href="{{ path('editar_podcast', { 'id': podcast.id }) }}">Editar</a>
-                    <a href="{{ path('eliminar_podcast', { 'id': podcast.id }) }}">Eliminar</a>
-               
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No hay podcasts disponibles.</p>
-{% endif %}
+     <!-- Resto de tu código HTML -->
 
-
-
-
-                    
+<div class="card-body file-manager">
+<h4>Podcasts</h4>
+<ul class="files">
+   {% if podcasts is empty %}
+                        <p>No hay podcasts disponibles.</p>
+                    {% else %}
+                        <ul>
+                            {% for podcast in podcasts %}
+                                <li class="file-box">
+                                    <strong>Título:</strong> {{ podcast.titulo }}
+                                    <br>
+                                    <strong>Fecha de Subida:</strong> {{ podcast.fechaSubida|date('Y-m-d H:i:s') }}
+                                    <br>
+                                    <strong>Descripción:</strong> {{ podcast.descripcion }}
+                                    <br>
+                                    <strong>Audio:</strong> {{ podcast.audio }}
+                                        <audio controls>
+                                        <source src="{{ asset('assets/audio/' ~ podcast.audio) }}" type="audio/mpeg">
+                                        Tu navegador no admite la reproducción de audio.
+                                    </audio>
+                                    <br>
+                                    <strong>Imagen:</strong>
+                                        <img src="{{ asset('assets/images/' ~ podcast.imagen) }}" alt="Imagen del podcast" style="max-width: 200px; height: auto;">
+                                        
+                                        <hr>
+                                        <a href="{{ path('editar_podcast', { 'id': podcast.id }) }}" class="btn btn-primary">Editar</a>
+                                        <a href="{{ path('eliminar_podcast', { 'id': podcast.id }) }}" class="btn btn-danger">Eliminar</a>
+                                </li>
+                            {% endfor %}
                         </ul>
+                    {% endif %}
+</ul>
+</div>
+
+<!-- Resto de tu código HTML -->
+
+    </ul>
+                 </ul>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@ class UsuarioType extends AbstractType
             ->add('apellidos', TextType::class)
             ->add('email', TextType::class)
             ->add('password', TextType::class)
-            ->add('Submit', SubmitType::class);
+            ->add('Registrarse', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

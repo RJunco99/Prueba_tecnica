@@ -46,7 +46,7 @@ security:
         - { path: ^/usuarios, roles: ROLE_ADMIN }
         - { path: ^/usuarios/\d+/eliminar, roles: ROLE_ADMIN }
         - { path: ^/usuarios/editar/\d+, roles: ROLE_ADMIN }
-        - { path: ^/podcasts/editar/\d+, roles: ROLE_ADMIN }
+        
         - { path: ^/tabla, roles: ROLE_ADMIN }
 
 when@test:

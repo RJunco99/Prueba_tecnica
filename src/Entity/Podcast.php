@@ -31,7 +31,23 @@ class Podcast
 
     #[ORM\Column(nullable: false)]
     private ?string $autor = null;
+    
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
+    #[ORM\JoinColumn(name: 'id_autor', referencedColumnName: 'id')]
 
+    private ?Usuario $id_autor = null;
+
+    public function getIdAutor(): ?Usuario
+    {
+        return $this->id_autor;
+    }
+
+    public function setIdAutor(?Usuario $id_autor): self
+    {
+        $this->id_autor = $id_autor;
+
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

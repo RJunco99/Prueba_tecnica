@@ -1,5 +1,63 @@
-{% extends 'index.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block body %}
 {{form(form)}}
 {% endblock %}
+ #}
+
+ {% extends "plantillas/layout_auth.html.twig" %}
+
+ {% block body %}
+     <div class="container-fluid p-0">
+         <div class="row m-0">
+             <div class="col-xl-7 p-0"><img class="bg-img-cover bg-center" src="{{ asset('assets/images/login/1.jpg') }}" alt="looginpage"></div>
+             <div class="col-xl-5 p-0">
+                 <div class="login-card">
+                     <div>
+                         
+                         <div class="login-main">
+                             <form action="{{ path('register') }}" method="POST" class="theme-form">
+                                 <h4>Registrarse</h4>
+                                
+                                 
+                                 {{ form_start(form) }}
+                                 
+                                 <div class="form-group">
+                                     <label class="col-form-label pt-0">Nombre</label>
+                                     <div class="row g-2">
+                                         <div class="col-6">
+                                             {{ form_widget(form.nombre, { 'attr': {'class': 'form-control', 'placeholder': 'Nombre'} }) }}
+                                         </div>
+                                         <div class="col-6">
+                                             {{ form_widget(form.apellidos, { 'attr': {'class': 'form-control', 'placeholder': 'Apellido'} }) }}
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-form-label">Email </label>
+                                     {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-form-label">Password</label>
+                                     <div class="form-input position-relative">
+                                         {{ form_widget(form.password, { 'attr': {'class': 'form-control', 'placeholder': '*********'} }) }}
+                                       
+                                     </div>
+                                 </div>
+                                 <div class="form-group mb-0">
+                                     {{ form_widget(form.Registrarse, { 'attr': {'class': 'btn btn-primary btn-block w-100'} }) }}
+                                 </div>
+                                 
+                                 {{ form_end(form) }}
+                                 
+                                 
+                                 <p class="mt-4 mb-0 text-center">¿Tienes ya una cuenta?<a class="ms-2" href="{{ path('login') }}">Login</a></p>
+                             </form>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ {% endblock %}
+ 

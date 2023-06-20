@@ -31,6 +31,7 @@ $user = $this->security->getUser();
 if ($user instanceof Usuario) {
     $nombreAutor = $user->getNombre();
     $podcast->setAutor($nombreAutor);
+    $podcast->setIdAutor($user);
 } else {
     // Manejo de errores o redireccionamiento
 }
@@ -111,44 +112,142 @@ if ($user instanceof Usuario) {
     }
 
     #[Route('/podcasts/editar/{id}', name: 'editar_podcast')]
-    public function editar(Request $request, Podcast $podcast): Response
-    {
-        
-        $form = $this->createForm(PodcastType::class, $podcast);
-        $form->handleRequest($request);
+    #[Route('/podcasts/editar/{id}', name: 'editar_podcast')]
+public function editar(Request $request, Podcast $podcast): Response
+{
+    $form = $this->createForm(PodcastType::class, $podcast);
+    $form->handleRequest($request);
 
+    if ($form->isSubmitted() && $form->isValid()) {
+        /** @var UploadedFile $imageFile */
+        $imageFile = $form->get('imagen')->getData();
+
+        if ($imageFile) {
+            $originalImageName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeImageName = iconv('UTF-8', 'ASCII//TRANSLIT', $originalImageName);
+            $safeImageName = preg_replace('/[^A-Za-z0-9_]/', '', $safeImageName);
+            $safeImageName = strtolower($safeImageName);
+            $newImageName = $safeImageName . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('app.image_directory'),
+                    $newImageName
+                );
+
+                $podcast->setImagen($newImageName);
+            } catch (FileException $e) {
+                // Manejo de errores al mover el archivo de imagen
+            }
+        }
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
+            $newAudioFile = $form->get('audio')->getData();
+        if ($newAudioFile) {
+            // Eliminar el archivo de audio anterior si existe
+            if ($podcast->getAudio()) {
+                $oldAudioPath = $this->getParameter('app.audio_directory') . '/' . $podcast->getAudio();
+                if (file_exists($oldAudioPath)) {
+                    unlink($oldAudioPath);
+                }
+            }
 
-            $this->addFlash('success', 'El podcast ha sido actualizado correctamente.');
+            // Subir y guardar el nuevo archivo de audio
+            $originalAudioName = pathinfo($newAudioFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeAudioName = iconv('UTF-8', 'ASCII//TRANSLIT', $originalAudioName);
+            $newAudioName = $safeAudioName . '-' . uniqid() . '.' . $newAudioFile->guessExtension();
 
-            return $this->redirectToRoute('perfil');
+            try {
+                $newAudioFile->move(
+                    $this->getParameter('app.audio_directory'),
+                    $newAudioName
+                );
+
+                $podcast->setAudio($newAudioName);
+            } catch (FileException $e) {
+                // Manejo de errores al mover el archivo de audio
+            }
+        }
+        $this->em->flush();
+
+        $this->addFlash('success', 'El podcast ha sido actualizado correctamente.');
+
+        return $this->redirectToRoute('perfil');
+    }
+}
+    return $this->render('editar_podcast.html.twig', [
+        'podcast' => $podcast,
+        'form' => $form->createView(),
+    ]);
+}
+
+public function editar_admin(Request $request, Podcast $podcast): Response
+{
+    $form = $this->createForm(PodcastType::class, $podcast);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        /** @var UploadedFile $imageFile */
+        $imageFile = $form->get('imagen')->getData();
+
+        if ($imageFile) {
+            $originalImageName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeImageName = iconv('UTF-8', 'ASCII//TRANSLIT', $originalImageName);
+            $safeImageName = preg_replace('/[^A-Za-z0-9_]/', '', $safeImageName);
+            $safeImageName = strtolower($safeImageName);
+            $newImageName = $safeImageName . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+            try {
+                $imageFile->move(
+                    $this->getParameter('app.image_directory'),
+                    $newImageName
+                );
+
+                $podcast->setImagen($newImageName);
+            } catch (FileException $e) {
+                // Manejo de errores al mover el archivo de imagen
+            }
         }
 
-        return $this->render('editar_podcast.html.twig', [
-            'podcast' => $podcast,
-            'form' => $form->createView(),
-        ]);
-    }
-    public function editar_admin(Request $request, Podcast $podcast): Response
-    {
-        
-        $form = $this->createForm(PodcastType::class, $podcast);
-        $form->handleRequest($request);
+        $newAudioFile = $form->get('audio')->getData();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
+        if ($newAudioFile) {
+            // Eliminar el archivo de audio anterior si existe
+            if ($podcast->getAudio()) {
+                $oldAudioPath = $this->getParameter('app.audio_directory') . '/' . $podcast->getAudio();
+                if (file_exists($oldAudioPath)) {
+                    unlink($oldAudioPath);
+                }
+            }
 
-            $this->addFlash('success', 'El podcast ha sido actualizado correctamente.');
+            // Subir y guardar el nuevo archivo de audio
+            $originalAudioName = pathinfo($newAudioFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeAudioName = iconv('UTF-8', 'ASCII//TRANSLIT', $originalAudioName);
+            $newAudioName = $safeAudioName . '-' . uniqid() . '.' . $newAudioFile->guessExtension();
 
-            return $this->redirectToRoute('tabla_podcast');
+            try {
+                $newAudioFile->move(
+                    $this->getParameter('app.audio_directory'),
+                    $newAudioName
+                );
+
+                $podcast->setAudio($newAudioName);
+            } catch (FileException $e) {
+                // Manejo de errores al mover el archivo de audio
+            }
         }
 
-        return $this->render('editar_podcast.html.twig', [
-            'podcast' => $podcast,
-            'form' => $form->createView(),
-        ]);
+        $this->em->flush();
+
+        $this->addFlash('success', 'El podcast ha sido actualizado correctamente.');
+
+        return $this->redirectToRoute('tabla_podcast');
     }
+
+    return $this->render('editar_podcast.html.twig', [
+        'podcast' => $podcast,
+        'form' => $form->createView(),
+    ]);
+}
     #[Route('/podcasts/eliminar/{id}', name: 'eliminar_podcast')]
     public function eliminar(Request $request, Podcast $podcast): Response
     {

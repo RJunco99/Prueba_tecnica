@@ -26,19 +26,20 @@ class UsuarioController extends AbstractController
     
   
 
-#[Route('/perfil', name: 'perfil')]
-public function perfil(): Response
-{
-    $user = $this->getUser();
-    $isAdmin = in_array('ROLE_ADMIN', $user->getRoles());
-
-    $podcastRepository = $this->entityManager->getRepository(Podcast::class);
-    $podcasts = $isAdmin ? $podcastRepository->findAll() : $podcastRepository->findBy(['autor' => $user]);
-
-    return $this->render('perfil.html.twig', [
-        'podcasts' => $podcasts,
-    ]);
-}
+    #[Route('/perfil', name: 'perfil')]
+    public function perfil(): Response
+    {
+        $user = $this->getUser();
+        $isAdmin = in_array('ROLE_ADMIN', $user->getRoles());
+    
+        $podcastRepository = $this->entityManager->getRepository(Podcast::class);
+        $podcasts = $isAdmin ? $podcastRepository->findAll() : $podcastRepository->findBy(['id_autor' => $user]);
+    
+        return $this->render('perfil.html.twig', [
+            'podcasts' => $podcasts,
+        ]);
+    }
+    
 
 
 
