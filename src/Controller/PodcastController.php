@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 use App\Entity\Usuario;
-
+use App\Repository\PodcastRepository;
 use App\Entity\Podcast;
 use App\Form\PodcastType;
+use App\Form\SearchType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,27 @@ class PodcastController extends AbstractController
         $this->em = $em;
         $this->security = $security;
     }
+    #[Route('/search', name: 'search_podcasts')]
+    public function searchPodcasts(Request $request, PodcastRepository $podcastRepository): Response
+    {
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+    
+        $query = $request->query->get('query');
+        
+        if ($query) {
+            $podcasts = $podcastRepository->searchPodcasts($query);
+        } else {
+            $podcasts = $podcastRepository->findAll();
+        }
+    
+        return $this->render('home.html.twig', [
+            'form' => $form->createView(),
+            'podcasts' => $podcasts,
+        ]);
+    }
+    
+    
     public function subirPodcast(Request $request): Response
     {
         $podcast = new Podcast();

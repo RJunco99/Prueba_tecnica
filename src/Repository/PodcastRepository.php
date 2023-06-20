@@ -38,4 +38,12 @@ class PodcastRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function searchPodcasts($query)
+{
+    return $this->createQueryBuilder('p')
+        ->where('p.titulo LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        ->getQuery()
+        ->getResult();
+}
 }

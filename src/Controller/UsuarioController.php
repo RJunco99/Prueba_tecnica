@@ -4,13 +4,16 @@ namespace App\Controller;
 use App\Entity\Podcast;
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
+
+use App\Form\PodcastType;
+use App\Form\SearchType;
 use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-
+use App\Repository\PodcastRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -124,5 +127,48 @@ public function eliminar(Request $request, $id): Response
             'users' => $users,
         ]);
     }
-   
+    #[Route('/searchperfil', name: 'search_perfil')]
+public function searchPerfil(Request $request, PodcastRepository $podcastRepository): Response
+{
+    $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+    
+        $query = $request->query->get('query');
+        
+        if ($query) {
+            $podcasts = $podcastRepository->searchPodcasts($query);
+        } else {
+            $podcasts = $podcastRepository->findAll();
+        }
+    
+        return $this->render('perfil.html.twig', [
+            'form' => $form->createView(),
+            'podcasts' => $podcasts,
+        ]);
+    }
+    #[Route('/searchtabla', name: 'search_tabla')]
+public function searchTabla(Request $request, UsuarioRepository $userRepository, PodcastRepository $podcastRepository): Response
+{
+    $form = $this->createForm(SearchType::class);
+    $form->handleRequest($request);
+
+    $query = $request->query->get('q');
+
+    $users = $userRepository->searchUsers($query);
+    $podcasts = $podcastRepository->searchPodcasts($query);
+
+    if ($users) {
+        return $this->render('table_user.html.twig', [
+            'form' => $form->createView(),
+            'users' => $users,
+        ]);
+    } else {
+        return $this->render('table_podcast.html.twig', [
+            'form' => $form->createView(),
+            'podcasts' => $podcasts,
+        ]);
+    }
+}
+
+    
 }

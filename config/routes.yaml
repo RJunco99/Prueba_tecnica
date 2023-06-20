@@ -49,3 +49,15 @@ app_login:
 
 app_logout:
     path: /logout
+search_podcast:
+    path: /search
+    controller: App\Controller\PodcastController::searchPodcasts
+    methods: ['GET', 'POST']
+search_perfil:
+    path: /searchperfil
+    controller: App\Controller\UsuarioController::searchPerfil
+    methods: ['GET', 'POST']
+search_tabla:
+    path: /searchptabla
+    controller: App\Controller\UsuarioController::searchTabla
+    methods: ['GET', 'POST']

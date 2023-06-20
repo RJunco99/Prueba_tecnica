@@ -53,6 +53,7 @@ class PodcastType extends AbstractType
                     ]),
                 ],
             ])
+          
             ->add('imagen', FileType::class, [
                 'label' => 'Imagen',
                 'attr' => ['class' => 'form-control-file'],

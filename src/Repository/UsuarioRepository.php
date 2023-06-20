@@ -55,7 +55,14 @@ class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgra
 
         $this->save($user, true);
     }
-
+    public function searchUsers($query)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.nombre LIKE :query')
+            ->setParameter('query', '%' . $query . '%')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Usuario[] Returns an array of Usuario objects
 //     */
